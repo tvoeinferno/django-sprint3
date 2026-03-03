@@ -1,6 +1,11 @@
-from django.db import models
 from django.contrib.auth import get_user_model
+
+from django.db import models
+
 from core.models import PublishedModel, TimeStampedModel, TitleModel
+
+from core.constants import MAX_LENGTH
+
 
 User = get_user_model()
 
@@ -18,18 +23,18 @@ class Category(PublishedModel, TimeStampedModel, TitleModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title
+        return self.title[:20]
 
 
 class Location(PublishedModel, TimeStampedModel):
-    name = models.CharField('Название места', max_length=256)
+    name = models.CharField('Название места', max_length=MAX_LENGTH)
 
     class Meta:
         verbose_name = 'местоположение'
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.title
+        return self.title[:20]
 
 
 class Post(PublishedModel, TimeStampedModel, TitleModel):
@@ -61,6 +66,8 @@ class Post(PublishedModel, TimeStampedModel, TitleModel):
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
+        ordering = ('-pub_date')
+        default_related_name = 'posts'
 
     def __str__(self):
-        return self.title
+        return self.title[:20]

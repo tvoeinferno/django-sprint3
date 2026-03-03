@@ -1,43 +1,40 @@
-from django.shortcuts import render, get_object_or_404
-from blog.models import Category, Post
-from django.utils import timezone
+from django.shortcuts import get_object_or_404, render
 
-now = timezone.now()
+from django.utils.timezone import now
+
+from blog.models import Category, Post
+
+from core.constants import POSTS_ON_MAIN
+
+
+def get_posts(queryset):
+    return queryset.select_related(
+        'author', 'location', 'category'
+    ).filter(
+        is_published=True,
+        pub_date__lte=now,
+        category__is_published=True
+    )
 
 
 def index(request):
-    posts = (
-        Post.objects
-        .select_related('author', 'location', 'category')
-        .filter(is_published=True,
-                pub_date__lte=now,
-                category__is_published=True)
-        .order_by('-pub_date')[0:5]
-    )
+    posts = get_posts(Post.objects)[:POSTS_ON_MAIN]
     return render(request, 'blog/index.html', {'post_list': posts})
 
 
 def post_detail(request, post_id):
     post = get_object_or_404(
-        Post,
-        pk=post_id,
-        pub_date__lte=now,
-        is_published=True,
-        category__is_published=True
+        get_posts(Post.objects),
+        pk=post_id
     )
     return render(request, 'blog/detail.html', {'post': post})
 
 
 def category_posts(request, category_slug):
     category = get_object_or_404(
-        Category, slug=category_slug, is_published=True)
-    posts = (
-        Post.objects.filter(
-            category=category,
-            is_published=True,
-            pub_date__lte=now)
-        .order_by('-pub_date')
+        Category, slug=category_slug, is_published=True
     )
-
+    posts = get_posts(
+        Post.objects.filter(category.posts.all()))[:POSTS_ON_MAIN]
     return render(request, 'blog/category.html',
                   {'category': category, 'post_list': posts})

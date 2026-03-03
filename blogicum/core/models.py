@@ -1,5 +1,7 @@
 from django.db import models
 
+from core.constants import MAX_LENGTH
+
 
 class PublishedModel(models.Model):
     is_published = models.BooleanField(
@@ -19,7 +21,7 @@ class TimeStampedModel(models.Model):
 
 
 class TitleModel(models.Model):
-    title = models.CharField('Заголовок', max_length=256)
+    title = models.CharField('Заголовок', max_length=MAX_LENGTH)
 
     class Meta:
         abstract = True

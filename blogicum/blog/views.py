@@ -35,6 +35,6 @@ def category_posts(request, category_slug):
     category = get_object_or_404(
         Category, slug=category_slug, is_published=True
     )
-    posts = get_posts(category.posts.all())[:POSTS_ON_MAIN]
+    posts = get_posts(category.posts.all())
     return render(request, 'blog/category.html',
                   {'category': category, 'post_list': posts})

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 
-from django.utils.timezone import now
+from django.utils import timezone
 
 from blog.models import Category, Post
 
@@ -8,6 +8,7 @@ from core.constants import POSTS_ON_MAIN
 
 
 def get_posts(queryset):
+    now = timezone.now()
     return queryset.select_related(
         'author', 'location', 'category'
     ).filter(
@@ -34,7 +35,6 @@ def category_posts(request, category_slug):
     category = get_object_or_404(
         Category, slug=category_slug, is_published=True
     )
-    posts = get_posts(
-        Post.objects.filter(category.posts.all()))[:POSTS_ON_MAIN]
+    posts = get_posts(category.posts.all())[:POSTS_ON_MAIN]
     return render(request, 'blog/category.html',
                   {'category': category, 'post_list': posts})

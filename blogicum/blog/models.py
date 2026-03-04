@@ -1,16 +1,14 @@
 from django.contrib.auth import get_user_model
-
 from django.db import models
 
-from core.models import PublishedModel, TimeStampedModel, TitleModel
-
-from core.constants import MAX_LENGTH
+from core.models import IsPublishedAbstract, TimeStampedAbstract, TitleAbstract
+from core.constants import MAX_LENGTH, TITLE_LENGTH
 
 
 User = get_user_model()
 
 
-class Category(PublishedModel, TimeStampedModel, TitleModel):
+class Category(IsPublishedAbstract, TimeStampedAbstract, TitleAbstract):
     description = models.TextField('Описание')
     slug = models.SlugField(
         'Идентификатор',
@@ -23,10 +21,10 @@ class Category(PublishedModel, TimeStampedModel, TitleModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title[:20]
+        return self.title[:TITLE_LENGTH]
 
 
-class Location(PublishedModel, TimeStampedModel):
+class Location(IsPublishedAbstract, TimeStampedAbstract):
     name = models.CharField('Название места', max_length=MAX_LENGTH)
 
     class Meta:
@@ -34,10 +32,10 @@ class Location(PublishedModel, TimeStampedModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.title[:20]
+        return self.title[:TITLE_LENGTH]
 
 
-class Post(PublishedModel, TimeStampedModel, TitleModel):
+class Post(IsPublishedAbstract, TimeStampedAbstract, TitleAbstract):
     text = models.TextField('Текст')
     pub_date = models.DateTimeField(
         'Дата и время публикации',
@@ -70,4 +68,4 @@ class Post(PublishedModel, TimeStampedModel, TitleModel):
         default_related_name = 'posts'
 
     def __str__(self):
-        return self.title[:20]
+        return self.title[:TITLE_LENGTH]

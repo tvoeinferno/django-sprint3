@@ -3,7 +3,7 @@ from django.db import models
 from core.constants import MAX_LENGTH
 
 
-class PublishedModel(models.Model):
+class IsPublishedAbstract(models.Model):
     is_published = models.BooleanField(
         'Опубликовано',
         default=True,
@@ -13,14 +13,14 @@ class PublishedModel(models.Model):
         abstract = True
 
 
-class TimeStampedModel(models.Model):
+class TimeStampedAbstract(models.Model):
     created_at = models.DateTimeField('Добавлено', auto_now_add=True)
 
     class Meta:
         abstract = True
 
 
-class TitleModel(models.Model):
+class TitleAbstract(models.Model):
     title = models.CharField('Заголовок', max_length=MAX_LENGTH)
 
     class Meta:

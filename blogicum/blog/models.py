@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from core.models import IsPublishedAbstract, CreatedAtAbstract, TitleAbstract
-from core.constants import MAX_TITLE_LENGTH, STR_OUTPUT_SLICE, MAX_NAME_LENGTH
+from core.constants import STR_OUTPUT_SLICE, MAX_NAME_LENGTH
 
 
 User = get_user_model()
@@ -26,14 +26,14 @@ class Category(IsPublishedAbstract, CreatedAtAbstract, TitleAbstract):
 
 
 class Location(IsPublishedAbstract, CreatedAtAbstract):
-    name = models.CharField('Название места', max_length=MAX_TITLE_LENGTH)
+    name = models.CharField('Название места', max_length=MAX_NAME_LENGTH)
 
     class Meta:
         verbose_name = 'местоположение'
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name[:MAX_NAME_LENGTH]
+        return self.name[:STR_OUTPUT_SLICE]
 
 
 class Post(IsPublishedAbstract, CreatedAtAbstract, TitleAbstract):

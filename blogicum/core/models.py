@@ -1,19 +1,20 @@
 from django.db import models
 
-from core.constants import MAX_LENGTH
+from core.constants import MAX_NAME_LENGTH
 
 
 class IsPublishedAbstract(models.Model):
     is_published = models.BooleanField(
         'Опубликовано',
         default=True,
-        help_text='Снимите галочку, чтобы скрыть публикацию.')
+        help_text='Снимите галочку, чтобы скрыть публикацию.'
+    )
 
     class Meta:
         abstract = True
 
 
-class TimeStampedAbstract(models.Model):
+class CreatedAtAbstract(models.Model):
     created_at = models.DateTimeField('Добавлено', auto_now_add=True)
 
     class Meta:
@@ -21,7 +22,7 @@ class TimeStampedAbstract(models.Model):
 
 
 class TitleAbstract(models.Model):
-    title = models.CharField('Заголовок', max_length=MAX_LENGTH)
+    title = models.CharField('Заголовок', max_length=MAX_NAME_LENGTH)
 
     class Meta:
         abstract = True

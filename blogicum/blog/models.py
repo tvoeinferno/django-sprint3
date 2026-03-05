@@ -1,41 +1,42 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from core.models import IsPublishedAbstract, TimeStampedAbstract, TitleAbstract
-from core.constants import MAX_LENGTH, TITLE_LENGTH
+from core.models import IsPublishedAbstract, CreatedAtAbstract, TitleAbstract
+from core.constants import MAX_NAME_LENGTH, METHOD_OUTPUT_SLICE
 
 
 User = get_user_model()
 
 
-class Category(IsPublishedAbstract, TimeStampedAbstract, TitleAbstract):
+class Category(IsPublishedAbstract, CreatedAtAbstract, TitleAbstract):
     description = models.TextField('Описание')
     slug = models.SlugField(
         'Идентификатор',
         unique=True,
         help_text='Идентификатор страницы для URL; разрешены символы '
-        'латиницы, цифры, дефис и подчёркивание.')
+        'латиницы, цифры, дефис и подчёркивание.'
+    )
 
     class Meta:
         verbose_name = 'категория'
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title[:TITLE_LENGTH]
+        return self.title[:METHOD_OUTPUT_SLICE]
 
 
-class Location(IsPublishedAbstract, TimeStampedAbstract):
-    name = models.CharField('Название места', max_length=MAX_LENGTH)
+class Location(IsPublishedAbstract, CreatedAtAbstract):
+    name = models.CharField('Название места', max_length=MAX_NAME_LENGTH)
 
     class Meta:
         verbose_name = 'местоположение'
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.title[:TITLE_LENGTH]
+        return self.title[:METHOD_OUTPUT_SLICE]
 
 
-class Post(IsPublishedAbstract, TimeStampedAbstract, TitleAbstract):
+class Post(IsPublishedAbstract, CreatedAtAbstract, TitleAbstract):
     text = models.TextField('Текст')
     pub_date = models.DateTimeField(
         'Дата и время публикации',
@@ -68,4 +69,4 @@ class Post(IsPublishedAbstract, TimeStampedAbstract, TitleAbstract):
         default_related_name = 'posts'
 
     def __str__(self):
-        return self.title[:TITLE_LENGTH]
+        return self.title[:METHOD_OUTPUT_SLICE]

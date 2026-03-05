@@ -1,6 +1,6 @@
 from django.db import models
 
-from core.constants import MAX_NAME_LENGTH
+from core.constants import MAX_TITLE_LENGTH
 
 
 class IsPublishedAbstract(models.Model):
@@ -22,7 +22,7 @@ class CreatedAtAbstract(models.Model):
 
 
 class TitleAbstract(models.Model):
-    title = models.CharField('Заголовок', max_length=MAX_NAME_LENGTH)
+    title = models.CharField('Заголовок', max_length=MAX_TITLE_LENGTH)
 
     class Meta:
         abstract = True

@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from core.models import IsPublishedAbstract, CreatedAtAbstract, TitleAbstract
-from core.constants import STR_OUTPUT_SLICE, MAX_NAME_LENGTH
+from core.constants import STR_OUTPUT_SLICE, MAX_CHARFIELD_LENGTH
 
 
 User = get_user_model()
@@ -26,7 +26,7 @@ class Category(IsPublishedAbstract, CreatedAtAbstract, TitleAbstract):
 
 
 class Location(IsPublishedAbstract, CreatedAtAbstract):
-    name = models.CharField('Название места', max_length=MAX_NAME_LENGTH)
+    name = models.CharField('Название места', max_length=MAX_CHARFIELD_LENGTH)
 
     class Meta:
         verbose_name = 'местоположение'
